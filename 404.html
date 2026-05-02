@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>404 · Cubbo Errores MX</title>
+<style>
+@import url('https://cdn.jsdelivr.net/npm/geist-font@1.5.0/dist/geist.min.css');
+@import url('https://cdn.jsdelivr.net/npm/geist-font@1.5.0/dist/geist-mono.min.css');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Geist', -apple-system, sans-serif;
+  background: #1a1a1a;
+  color: #f5f3ed;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at top, rgba(50, 38, 28, 0.4), transparent 60%);
+  pointer-events: none;
+}
+.wrap {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 480px;
+}
+.eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #8a857a;
+  margin-bottom: 20px;
+}
+h1 {
+  font-size: 72px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #dc6b4f;
+  margin-bottom: 12px;
+}
+p {
+  font-size: 16px;
+  color: #c8c4ba;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+a {
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #f5f3ed;
+  background: transparent;
+  border: 1px solid #44413c;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+a:hover {
+  border-color: #dc6b4f;
+  color: #e88a72;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Página no encontrada</div>
+  <h1>404</h1>
+  <p>La ruta que buscas no existe en este reporte. Pero el reporte sí.</p>
+  <a href="/">Volver al reporte</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cubbo · Errores y Productividad MX · Reporte Semanal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://cdn.jsdelivr.net/npm/geist-font@1.5.0/dist/geist.min.css');
+@import url('https://cdn.jsdelivr.net/npm/geist-font@1.5.0/dist/geist-mono.min.css');
+
+:root {
+  /* Graphite Editorial — warm dark */
+  --bg: #1a1a1a;
+  --bg-card: #232220;
+  --bg-card-2: #2a2826;
+  --bg-subtle: #1f1e1c;
+  --bg-code: #15140f;
+
+  --line: #34322e;
+  --line-strong: #44413c;
+
+  --ink: #f5f3ed;
+  --ink-soft: #c8c4ba;
+  --ink-mute: #8a857a;
+  --ink-faint: #5d5a52;
+
+  --crit: #dc6b4f;
+  --crit-soft: #e88a72;
+  --crit-bg: rgba(220, 107, 79, 0.10);
+  --crit-line: rgba(220, 107, 79, 0.28);
+
+  --warn: #e8a849;
+  --warn-soft: #f0c179;
+  --warn-bg: rgba(232, 168, 73, 0.10);
+  --warn-line: rgba(232, 168, 73, 0.28);
+
+  --ok: #84b08c;
+  --ok-soft: #a3c3a8;
+  --ok-bg: rgba(132, 176, 140, 0.10);
+  --ok-line: rgba(132, 176, 140, 0.28);
+
+  --info: #7ba5c8;
+  --info-bg: rgba(123, 165, 200, 0.10);
+  --info-line: rgba(123, 165, 200, 0.28);
+
+  --acc-purple: #b89cd1;
+
+  /* Owners */
+  --own-plat: #b89cd1;
+  --own-cs: #7ba5c8;
+  --own-carrier: #e8a849;
+  --own-ops: #84b08c;
+  --own-tech: #7ba5c8;
+  --own-customer: #e8a849;
+  --own-lastmile: #dc6b4f;
+  --own-cubbo: #84b08c;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Geist', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at top, rgba(50, 38, 28, 0.4), transparent 60%),
+              radial-gradient(ellipse at bottom right, rgba(40, 30, 20, 0.3), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 48px 80px;
+}
+
+/* ============ HEADER ============ */
+.masthead {
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 28px;
+  margin-bottom: 48px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px;
+}
+
+.masthead-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.masthead-eyebrow .dot {
+  display: inline-block;
+  width: 5px; height: 5px;
+  background: var(--crit);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--crit);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.masthead h1 {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 52px;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.masthead h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--crit);
+}
+
+.masthead-side {
+  text-align: right;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  color: var(--ink-mute);
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+}
+
+.masthead-side strong {
+  display: block;
+  color: var(--ink);
+  font-size: 11.5px;
+  margin-bottom: 2px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.masthead-side .meta-row { margin-bottom: 12px; }
+.masthead-side .meta-row:last-child { margin-bottom: 0; }
+
+/* ============ SECTION ============ */
+.section { margin-bottom: 64px; }
+
+.section-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.section-num::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+
+.section h2 {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.section h2 em { font-style: italic; color: var(--ink-soft); font-weight: 500; }
+
+.section-sub {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+code {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.88em;
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--ink);
+}
+
+/* ============ EXEC SUMMARY ============ */
+.exec {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--crit);
+  padding: 30px 34px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.exec::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle at top right, var(--crit-bg), transparent 70%);
+  pointer-events: none;
+}
+
+.exec-lead {
+  font-family: 'Geist', sans-serif;
+  font-size: 21px;
+  line-height: 1.45;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 22px;
+  letter-spacing: -0.005em;
+  position: relative;
+}
+
+.exec-lead strong {
+  font-weight: 500;
+  color: var(--crit-soft);
+  font-style: italic;
+}
+
+.exec-bullets {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  position: relative;
+  counter-reset: b;
+}
+
+.exec-bullets li {
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding-left: 28px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.exec-bullets li::before {
+  content: counter(b, decimal-leading-zero);
+  counter-increment: b;
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 9.5px;
+  color: var(--ink-mute);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.exec-bullets b {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ============ KPI GRID ============ */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.kpi {
+  padding: 24px 26px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  background: var(--bg-card);
+  transition: background 0.2s;
+}
+.kpi:last-child { border-right: 0; }
+.kpi:hover { background: var(--bg-card-2); }
+
+.kpi-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kpi-tag {
+  font-size: 8.5px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  border: 1px solid;
+}
+.kpi-tag.crit { background: var(--crit-bg); color: var(--crit-soft); border-color: var(--crit-line); }
+.kpi-tag.warn { background: var(--warn-bg); color: var(--warn-soft); border-color: var(--warn-line); }
+.kpi-tag.ok   { background: var(--ok-bg); color: var(--ok-soft); border-color: var(--ok-line); }
+.kpi-tag.info { background: var(--info-bg); color: var(--info); border-color: var(--info-line); }
+
+.kpi-value {
+  font-family: 'Geist', sans-serif;
+  font-size: 38px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-detail {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  line-height: 1.5;
+}
+
+/* ============ WAREHOUSE BREAKDOWN ============ */
+.wh-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.wh-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.wh-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0.8;
+}
+
+.wh-card.crit::before { background: var(--crit); box-shadow: 0 0 12px var(--crit); }
+.wh-card.warn::before { background: var(--warn); box-shadow: 0 0 12px var(--warn); }
+.wh-card.ok::before   { background: var(--ok); box-shadow: 0 0 12px var(--ok); }
+
+.wh-card:hover { border-color: var(--line-strong); }
+
+.wh-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.wh-name {
+  font-family: 'Geist', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.wh-id {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 0.06em;
+}
+
+.wh-stat {
+  font-family: 'Geist', sans-serif;
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.wh-card.crit .wh-stat { color: var(--crit-soft); }
+.wh-card.warn .wh-stat { color: var(--warn-soft); }
+.wh-card.ok   .wh-stat { color: var(--ok-soft); }
+
+.wh-stat-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.wh-extra {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.wh-extra strong { color: var(--ink); font-weight: 500; }
+
+/* ============ TABLES ============ */
+.table-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+table.std {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+table.std thead th {
+  background: var(--bg-subtle);
+  text-align: left;
+  padding: 13px 18px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  font-weight: 500;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+table.std thead th.num { text-align: right; }
+
+table.std tbody td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+table.std tbody tr:last-child td { border-bottom: 0; }
+table.std tbody tr:hover { background: var(--bg-subtle); }
+
+table.std td.num {
+  text-align: right;
+  font-family: 'Geist Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.err-class {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.err-msg {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  margin-top: 5px;
+  font-family: 'Geist Mono', monospace;
+  line-height: 1.5;
+  background: var(--bg-code);
+  padding: 7px 10px;
+  border-radius: 3px;
+  border-left: 2px solid var(--line-strong);
+  max-width: 460px;
+  word-break: break-word;
+}
+
+.text-quote {
+  font-family: 'Geist', sans-serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  position: relative;
+  padding-left: 12px;
+  border-left: 2px solid var(--crit-line);
+}
+.text-quote::before { content: '"'; color: var(--crit); font-size: 18px; }
+.text-quote::after { content: '"'; color: var(--crit); font-size: 18px; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 500;
+  font-family: 'Geist Mono', monospace;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border: 1px solid;
+}
+.pill.crit { background: var(--crit-bg); color: var(--crit-soft); border-color: var(--crit-line); }
+.pill.warn { background: var(--warn-bg); color: var(--warn-soft); border-color: var(--warn-line); }
+.pill.ok   { background: var(--ok-bg); color: var(--ok-soft); border-color: var(--ok-line); }
+.pill.info { background: var(--info-bg); color: var(--info); border-color: var(--info-line); }
+
+.owner {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-subtle);
+  color: var(--ink-soft);
+  white-space: nowrap;
+  font-family: 'Geist', sans-serif;
+}
+.owner::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+.owner.plat::before     { background: var(--own-plat); box-shadow: 0 0 6px var(--own-plat); }
+.owner.cs::before       { background: var(--own-cs); box-shadow: 0 0 6px var(--own-cs); }
+.owner.carrier::before  { background: var(--own-carrier); box-shadow: 0 0 6px var(--own-carrier); }
+.owner.ops::before      { background: var(--own-ops); box-shadow: 0 0 6px var(--own-ops); }
+.owner.tech::before     { background: var(--own-tech); box-shadow: 0 0 6px var(--own-tech); }
+.owner.customer::before { background: var(--own-customer); box-shadow: 0 0 6px var(--own-customer); }
+.owner.lastmile::before { background: var(--own-lastmile); box-shadow: 0 0 6px var(--own-lastmile); }
+.owner.cubbo::before    { background: var(--own-cubbo); box-shadow: 0 0 6px var(--own-cubbo); }
+
+/* ============ HIGHLIGHT BOX ============ */
+.highlight {
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
+  border: 1px solid var(--crit-line);
+  border-left: 3px solid var(--crit);
+  border-radius: 4px;
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight::after {
+  content: '★';
+  position: absolute;
+  top: 18px; right: 22px;
+  font-size: 36px;
+  color: var(--crit);
+  opacity: 0.18;
+  font-family: 'Geist', sans-serif;
+}
+
+.highlight-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--crit-soft);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.highlight h3 {
+  font-family: 'Geist', sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.highlight h3 em { font-style: italic; color: var(--crit-soft); font-weight: 500; }
+
+.highlight p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.highlight p:last-of-type { margin-bottom: 0; }
+
+.highlight code {
+  background: rgba(220, 107, 79, 0.12);
+  border-color: var(--crit-line);
+  color: var(--crit-soft);
+  font-weight: 500;
+}
+
+.highlight-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--crit-line);
+}
+
+.highlight-stat-num {
+  font-family: 'Geist', sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--crit-soft);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.highlight-stat-lbl {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+}
+
+/* ============ CODE STACK TRACE ============ */
+.code-block {
+  background: var(--bg-code);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 16px 20px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  overflow-x: auto;
+  margin-top: 18px;
+}
+.code-block .err { color: var(--crit-soft); font-weight: 500; }
+.code-block .path { color: var(--info); }
+.code-block .fn { color: var(--warn-soft); font-weight: 500; }
+.code-block .comment { color: var(--ink-faint); }
+.code-block .arrow { color: var(--ink-mute); }
+
+/* ============ TWO-COL ============ */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ============ STAT BLOCK ============ */
+.stat-block {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 22px 24px;
+}
+
+.stat-block-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+  margin-bottom: 14px;
+}
+
+.stat-block-headline {
+  font-family: 'Geist', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.stat-block-headline.crit { color: var(--crit-soft); }
+.stat-block-headline.warn { color: var(--warn-soft); }
+.stat-block-headline.ok { color: var(--ok-soft); }
+
+.stat-block-sub {
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin-bottom: 16px;
+}
+
+.stat-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.stat-bar-row:last-child { margin-bottom: 0; }
+.stat-bar-row .lbl { width: 70px; color: var(--ink-soft); font-weight: 500; }
+.stat-bar-row .bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-subtle);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.stat-bar-row .bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+.stat-bar-row .bar-fill.crit { background: linear-gradient(90deg, var(--crit), var(--crit-soft)); }
+.stat-bar-row .bar-fill.warn { background: linear-gradient(90deg, var(--warn), var(--warn-soft)); }
+.stat-bar-row .bar-fill.ok { background: linear-gradient(90deg, var(--ok), var(--ok-soft)); }
+.stat-bar-row .val {
+  font-family: 'Geist Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--ink);
+  width: 56px;
+  text-align: right;
+}
+
+/* ============ ACTIONS ============ */
+.actions { background: var(--bg-card); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+
+table.action-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+
+table.action-table thead th {
+  background: var(--bg-code);
+  color: var(--ink);
+  text-align: left;
+  padding: 13px 18px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  border-bottom: 1px solid var(--line);
+}
+
+table.action-table tbody td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+table.action-table tbody tr:last-child td { border-bottom: 0; }
+table.action-table tbody tr:hover { background: var(--bg-subtle); }
+
+.action-id {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  color: var(--ink-mute);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.priority {
+  display: inline-block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  border: 1px solid;
+}
+.priority.p1 { background: rgba(220, 107, 79, 0.18); color: var(--crit-soft); border-color: var(--crit-line); }
+.priority.p2 { background: rgba(232, 168, 73, 0.18); color: var(--warn-soft); border-color: var(--warn-line); }
+.priority.p3 { background: rgba(184, 156, 209, 0.18); color: var(--acc-purple); border-color: rgba(184, 156, 209, 0.28); }
+.priority.p4 { background: rgba(132, 176, 140, 0.18); color: var(--ok-soft); border-color: var(--ok-line); }
+
+table.action-table strong { color: var(--ink); font-weight: 500; }
+
+/* ============ DETAILS ============ */
+details.appendix {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin-top: 12px;
+}
+details.appendix > summary {
+  padding: 14px 22px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.2s;
+}
+details.appendix > summary:hover { color: var(--ink); }
+details.appendix > summary::-webkit-details-marker { display: none; }
+details.appendix > summary::before {
+  content: '+';
+  font-family: 'Geist Mono', monospace;
+  font-size: 14px;
+  color: var(--ink-mute);
+  display: inline-block;
+  width: 12px;
+}
+details.appendix[open] > summary::before { content: '−'; }
+
+.appendix-body {
+  padding: 4px 22px 20px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.appendix-body strong { color: var(--ink); font-weight: 500; }
+
+.q-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 24px;
+  margin-top: 10px;
+  list-style: none;
+}
+.q-list li {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  padding: 3px 0;
+  display: flex;
+  gap: 10px;
+}
+.q-list li b {
+  color: var(--ink);
+  min-width: 38px;
+  font-weight: 600;
+}
+
+/* ============ FOOTER ============ */
+.footer {
+  margin-top: 64px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-strong);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  color: var(--ink-mute);
+  line-height: 1.8;
+}
+
+.footer-block strong {
+  display: block;
+  color: var(--ink);
+  margin-bottom: 4px;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.footer-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.footer-tags span {
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 9.5px;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 880px) {
+  .page { padding: 32px 24px; }
+  .masthead { grid-template-columns: 1fr; }
+  .masthead-side { text-align: left; }
+  .masthead h1 { font-size: 36px; }
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .kpi:nth-child(2) { border-right: 0; }
+  .kpi:nth-child(1), .kpi:nth-child(2) { border-bottom: 1px solid var(--line); }
+  .wh-grid { grid-template-columns: 1fr; }
+  .highlight-stats { grid-template-columns: 1fr; gap: 18px; }
+  .two-col { grid-template-columns: 1fr; }
+  .q-list { grid-template-columns: 1fr; }
+  table.std, table.action-table { font-size: 11.5px; }
+  table.std tbody td, table.action-table tbody td { padding: 11px 14px; }
+  .err-msg { max-width: 100%; }
+  .footer { flex-direction: column; gap: 20px; }
+  .footer-block:last-child { text-align: left; }
+  .section h2 { font-size: 26px; }
+  .exec-lead { font-size: 18px; }
+}
+
+@media print {
+  body { background: white; color: #1a1a1a; }
+  body::before { display: none; }
+  .page { padding: 24px; max-width: 100%; }
+  .section { page-break-inside: avoid; }
+  .masthead-eyebrow .dot { animation: none; box-shadow: none; }
+  .wh-card::before, .priority { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div>
+      <div class="masthead-eyebrow">
+        <span class="dot"></span>
+        Reporte semanal · Operaciones MX · Plataforma
+      </div>
+      <h1>Errores y productividad <em>—</em><br>qué pasó esta semana</h1>
+    </div>
+    <div class="masthead-side">
+      <div class="meta-row">
+        <strong>Periodo</strong>
+        24 abr — 1 may 2026<br>7 días
+      </div>
+      <div class="meta-row">
+        <strong>Almacenes</strong>
+        Toreo · Plata · Tlalne
+      </div>
+      <div class="meta-row">
+        <strong>Fuente</strong>
+        Cubbo API · DB 2
+      </div>
+      <div class="meta-row">
+        <strong>Edición</strong>
+        Iván Hernández · v3.5
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ EXEC SUMMARY ============ -->
+  <section class="section">
+    <div class="section-num">§ 01 · Resumen ejecutivo</div>
+    <h2>Qué leer si solo tienes <em>un minuto</em></h2>
+    <p class="section-sub">
+      Tres frentes se cruzan esta semana en MX: un bug de validación de longitud de texto en el backend, errores de configuración concentrados en un solo cliente, y productividad transferida de packers a coordinadores en Plata. Las cifras de "ocurrencias" y "errores" cuentan filas en <code>order_fulfillment_errors</code> — una misma orden puede generar varias si reintenta.
+    </p>
+
+    <div class="exec">
+      <p class="exec-lead">
+        El <strong>hallazgo principal</strong> es un bug de backend en <code>shipping_label_service.rb:64</code> que rechaza textos de dirección largos. Un solo cliente (Plata Card) genera el <strong>99.5%</strong> de esos casos por checkout sin validar. En paralelo, otro defecto de configuración en el mismo cliente concentra el <strong>30% del volumen</strong> de errores. Y operativamente, <strong>~8% de los packs en Plata</strong> los genera el coordinador en lugar del packer.
+      </p>
+      <ul class="exec-bullets">
+        <li><b>6,892 ocurrencias</b> del bug "texto largo" en 7 días — afectando <b>6,198 órdenes únicas</b>. <code>process_action</code> en <code>shipping_label_service.rb:64</code> tira <code>ExpectedError</code> cuando un campo de dirección excede ~25 caracteres. Fix de Plataforma: 1-2 días.</li>
+        <li><b>9,331 ocurrencias</b> de configuración: <code>warehouse 1 does not support shipping_method 1090</code> — Customer Success debe dar de alta el método o validar con cliente.</li>
+        <li><b>13,831 errores</b> de circuit breaker contra <code>T1EnviosV2ApiClient</code> — proveedor caído intermitentemente, fuera de Cubbo.</li>
+        <li><b>~8% de los packs en Plata</b> los genera el coordinador en lugar del packer — 814 transferencias en un solo día (30 abr); en Toreo y Tlalne el indicador es &lt;1%.</li>
+        <li>Cero telemetría persistente del Network Error en handheld — confirmado por barrido de 41 tablas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ KPIs ============ -->
+  <section class="section">
+    <div class="section-num">§ 02 · Métricas principales</div>
+    <h2>Lo que dicen <em>los números</em></h2>
+    <p class="section-sub">
+      Volumen agregado de errores y dos métricas operativas clave: la concentración por almacén y el índice de transferencia de productividad.
+    </p>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="kpi-label">Total errores 7d <span class="kpi-tag crit">Crítico</span></div>
+        <div class="kpi-value">30,118</div>
+        <div class="kpi-detail">~4,302 errores/día promedio · 3 WH MX</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Concentración Plata <span class="kpi-tag warn">Foco</span></div>
+        <div class="kpi-value">82%</div>
+        <div class="kpi-detail">24,649 errores · 1 cliente concentra el grueso</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">% atribuible a proveedor <span class="kpi-tag info">Externo</span></div>
+        <div class="kpi-value">46%</div>
+        <div class="kpi-detail">T1 Envíos circuit breaker · fuera de Cubbo</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Productividad transferida Plata <span class="kpi-tag crit">Operación</span></div>
+        <div class="kpi-value">~8%</div>
+        <div class="kpi-detail">Packs que el coordinador genera por el packer</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WH BREAKDOWN ============ -->
+  <section class="section">
+    <div class="section-num">§ 03 · Distribución por almacén</div>
+    <h2>Qué pasa en <em>cada nave</em></h2>
+    <p class="section-sub">
+      Los tres almacenes MX procesaron 172,027 órdenes en el periodo. La proporción de errores por volumen ayuda a entender si un WH tiene un problema sistémico o solo refleja su mayor carga.
+    </p>
+
+    <div class="wh-grid">
+      <div class="wh-card warn">
+        <div class="wh-card-head">
+          <div class="wh-name">Toreo</div>
+          <div class="wh-id">WH-1</div>
+        </div>
+        <div class="wh-stat">~9%</div>
+        <div class="wh-stat-label">Cuota de errores · 30,392 órdenes</div>
+        <div class="wh-extra">
+          Flujo principal DHL + ESTAFETA + JT. Errores moderados, ninguno concentrado en un solo cliente. Transferencia packer→coord <strong>0.6%</strong>.
+        </div>
+      </div>
+      <div class="wh-card crit">
+        <div class="wh-card-head">
+          <div class="wh-name">Plata</div>
+          <div class="wh-id">WH-100</div>
+        </div>
+        <div class="wh-stat">82%</div>
+        <div class="wh-stat-label">Cuota de errores · 24,649 totales</div>
+        <div class="wh-extra">
+          <strong>Plata Card (store 18877)</strong> concentra los 7 tipos de error documentados. Aquí también se materializa la transferencia de productividad: <strong>~8% de los packs</strong> los genera el coordinador.
+        </div>
+      </div>
+      <div class="wh-card ok">
+        <div class="wh-card-head">
+          <div class="wh-name">Tlalne</div>
+          <div class="wh-id">WH-133</div>
+        </div>
+        <div class="wh-stat">~9%</div>
+        <div class="wh-stat-label">Cuota de errores · 50,495 órdenes</div>
+        <div class="wh-extra">
+          Carrier principal JT Express. Errores menores, mayormente resueltos por reintento. Transferencia <strong>0.3%</strong> — flujo distinto al de Plata.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HALLAZGO PRINCIPAL: TEXTO LARGO ============ -->
+  <section class="section">
+    <div class="section-num">§ 04 · Hallazgo principal</div>
+    <h2>Bug de backend: <em>texto demasiado largo</em></h2>
+    <p class="section-sub">
+      El error más estudiado del periodo. Stack trace identificado, función responsable identificada, cliente responsable identificado. Fix técnico de 1-2 días + fix de checkout en cliente de 1 semana.
+    </p>
+
+    <div class="highlight">
+      <div class="highlight-tag">Hallazgo prioritario · Plata Card · store 18877</div>
+      <h3>El texto rebasa el <em>límite del carrier</em> y rompe la generación del label</h3>
+      <p>
+        La función Ruby <code>process_action</code> en <code>shipping_label_service.rb:64</code> tira <code>ExpectedError</code> cuando un campo de dirección excede ~25 caracteres en el endpoint de T1 Envíos v2. Esto se materializa como <code>UNEXPECTED_ERROR</code> en el dashboard y desbloquea el flujo donde el packer no puede generar la guía y la coordinadora la genera por él (sección §07).
+      </p>
+      <p>
+        En 7 días: <strong style="color:var(--crit-soft)">6,892 ocurrencias</strong> repartidas en <strong style="color:var(--crit-soft)">6,198 órdenes únicas</strong> (algunas reintentan varias veces antes de fallar definitivamente). El cliente captura <strong style="color:var(--crit-soft)">5,565 textos distintos</strong> — no es un copy-paste de unos pocos casos, es realmente captura libre sin validación.
+      </p>
+      <p>
+        <strong style="color:var(--crit-soft)">Plata Card (store_id 18,877) genera el 99.5% de los casos</strong> — su checkout deja escribir descripciones de domicilio sin límite ni validación.
+      </p>
+      <div class="highlight-stats">
+        <div>
+          <div class="highlight-stat-num">6,892</div>
+          <div class="highlight-stat-lbl">Ocurrencias 7d</div>
+        </div>
+        <div>
+          <div class="highlight-stat-num">6,198</div>
+          <div class="highlight-stat-lbl">Órdenes únicas afectadas</div>
+        </div>
+        <div>
+          <div class="highlight-stat-num">99.5%</div>
+          <div class="highlight-stat-lbl">Plata Card · 1 store</div>
+        </div>
+      </div>
+      <div class="code-block">
+<span class="err">ExpectedError</span>: el texto 'Residencias el Prado (Jardines del' es demasiado largo
+  <span class="path">/app/app/services/shipping_label_service.rb:64</span>:in `<span class="fn">extract_address_components</span>'
+  <span class="path">/app/app/services/t1_envios_v2_service.rb:310</span>:in ...
+
+<span class="comment">→ Función Ruby identificada: <strong>process_action</strong></span>
+<span class="comment">→ Distribución: 4,639 solved · 2,250 retry_failed · 3 open</span>
+<span class="comment">→ Tienda responsable: <strong>Plata Card</strong> · 99.5% de los casos</span>
+<span class="comment">→ Carrier: <strong>T1 Envios v2</strong> · límite ≤25 chars en algún campo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOP TEXTOS ============ -->
+  <section class="section">
+    <div class="section-num">§ 05 · Evidencia textual</div>
+    <h2>Los textos exactos que <em>rompen el sistema</em></h2>
+    <p class="section-sub">
+      Top 10 cadenas literales enviadas por el checkout de Plata Card que fallaron al pasar por <code>extract_address_components</code> en el periodo. <strong>Hallazgo importante:</strong> el texto más frecuente (<i>"llamar antes de entregar."</i>, 25 caracteres, 398 casos) está justo en el límite — esto sugiere que el corte real del carrier puede ser ≤24 chars o que se rechaza por carácter especial (punto final, espacios, etc.).
+    </p>
+
+    <div class="table-wrap">
+      <table class="std">
+        <thead>
+          <tr>
+            <th style="width:48%">Texto enviado por checkout</th>
+            <th class="num">Caracteres</th>
+            <th class="num">Casos (7d)</th>
+            <th>Diagnóstico</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="text-quote">llamar antes de entregar.</div></td>
+            <td class="num" style="color:var(--warn-soft)">25</td>
+            <td class="num"><strong>398</strong></td>
+            <td><span class="pill crit">Justo en el límite</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">Av. Irrigacion 44-28 Col. Irrigacion</div></td>
+            <td class="num" style="color:var(--crit-soft)">36</td>
+            <td class="num"><strong>26</strong></td>
+            <td><span class="pill crit">Excede 1.4×</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">Villa de las Flores 2a</div></td>
+            <td class="num">22</td>
+            <td class="num"><strong>24</strong></td>
+            <td><span class="pill warn">Variante regional</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">Zona Sin Asignacion de Nombre de</div></td>
+            <td class="num" style="color:var(--crit-soft)">32</td>
+            <td class="num"><strong>24</strong></td>
+            <td><span class="pill crit">Excede 1.3×</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">Pedregal de San Nicolas</div></td>
+            <td class="num">23</td>
+            <td class="num"><strong>23</strong></td>
+            <td><span class="pill warn">Variante regional</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">C.12 No.507-208 San Miguel Amantla</div></td>
+            <td class="num" style="color:var(--crit-soft)">34</td>
+            <td class="num"><strong>21</strong></td>
+            <td><span class="pill crit">Excede 1.4×</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">Privada del Carmen 12, Casa, Al entrar a la privada hay unos cuernos.</div></td>
+            <td class="num" style="color:var(--crit-soft)">69</td>
+            <td class="num"><strong>20</strong></td>
+            <td><span class="pill crit">Excede 2.8×</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">porton negro grande aladora y tacos tio toti</div></td>
+            <td class="num" style="color:var(--crit-soft)">44</td>
+            <td class="num"><strong>19</strong></td>
+            <td><span class="pill crit">Excede 1.8×</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">Villa de Nuestra Senora de La Asuncion</div></td>
+            <td class="num" style="color:var(--crit-soft)">38</td>
+            <td class="num"><strong>19</strong></td>
+            <td><span class="pill crit">Excede 1.5×</span></td>
+          </tr>
+          <tr>
+            <td><div class="text-quote">Villa del Prado Segunda</div></td>
+            <td class="num">23</td>
+            <td class="num"><strong>15</strong></td>
+            <td><span class="pill warn">Variante regional</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ HALLAZGO SECUNDARIO: SHIPPING_METHOD ============ -->
+  <section class="section">
+    <div class="section-num">§ 06 · Hallazgo secundario</div>
+    <h2>Configuración: <em>shipping_method no soportado</em></h2>
+    <p class="section-sub">
+      Otro defecto del mismo cliente, pero por un camino distinto. No es bug de código — es un dato faltante en la tabla de relaciones. Resolución: <strong>1 línea de configuración</strong> o validación con el cliente sobre qué método deberían enviar.
+    </p>
+
+    <div class="highlight" style="border-color:var(--warn-line);border-left-color:var(--warn);">
+      <div class="highlight-tag" style="color:var(--warn-soft)">Hallazgo secundario · Plata Card · store 18877</div>
+      <h3>Toreo no soporta el <em>shipping_method 1090</em></h3>
+      <p>
+        El error <code>ExpectedError</code> con el mensaje <code>warehouse id 1 does not support shipping_method id 1090 for order id ...</code> (warehouse 1 = Toreo en la base) se repite <strong>9,331 veces</strong> en 7 días. Aparece tanto con <code>error_status = solved</code> (5,675) como con <code>retry_failed</code> (3,656) — aún cuando el reintento falla, eventualmente la orden se procesa por otro camino.
+      </p>
+      <p>
+        El cliente está enviando órdenes con un shipping_method que no está dado de alta para Toreo. No es un fallo de código: es un dato faltante en <code>warehouse_shipping_methods</code> o un envío incorrecto desde el checkout.
+      </p>
+      <div class="highlight-stats">
+        <div>
+          <div class="highlight-stat-num" style="color:var(--warn-soft)">9,331</div>
+          <div class="highlight-stat-lbl">Ocurrencias 7d</div>
+        </div>
+        <div>
+          <div class="highlight-stat-num" style="color:var(--warn-soft)">31%</div>
+          <div class="highlight-stat-lbl">Del total de errores MX</div>
+        </div>
+        <div>
+          <div class="highlight-stat-num" style="color:var(--warn-soft)">1</div>
+          <div class="highlight-stat-lbl">Línea de config para el fix</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCTIVIDAD TRANSFERIDA ============ -->
+  <section class="section">
+    <div class="section-num">§ 07 · Productividad transferida</div>
+    <h2>Cuando el coordinador hace <em>el trabajo del packer</em></h2>
+    <p class="section-sub">
+      Cuando un packer no puede generar su guía (ya sea por el bug del §04, por validaciones del §06 o por sistema lento), llama al coordinador para que la genere por él. Esto resuelve el problema operativo pero <strong>infla la productividad del coordinador</strong> y desinfla la del packer. La métrica cruza quién hace el evento físico de packing (cámara) vs quién genera el label (sistema).
+    </p>
+
+    <div class="two-col" style="margin-bottom: 16px;">
+      <div class="stat-block">
+        <div class="stat-block-title">% transferencia packer → coord (7d)</div>
+        <div class="stat-bar-row">
+          <span class="lbl">Plata</span>
+          <span class="bar-track"><span class="bar-fill crit" style="width:88%"></span></span>
+          <span class="val">~8%</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="lbl">Toreo</span>
+          <span class="bar-track"><span class="bar-fill warn" style="width:8%"></span></span>
+          <span class="val">0.6%</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="lbl">Tlalne</span>
+          <span class="bar-track"><span class="bar-fill ok" style="width:3%"></span></span>
+          <span class="val">0.3%</span>
+        </div>
+        <div class="stat-block-sub" style="margin-top:18px;margin-bottom:0">
+          Plata es el caso atípico: ~14× la tasa del siguiente almacén. El flujo "packer reporta a coordinadora → coordinadora resuelve" está sistematizado allí, mientras en Toreo y Tlalne el packer mismo reintenta o re-imprime.
+        </div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-block-title">Volumen diario · Plata (7d)</div>
+        <div class="stat-block-headline crit">2,654</div>
+        <div class="stat-block-sub">Transferencias acumuladas en la semana</div>
+        <div class="stat-bar-row">
+          <span class="lbl">28 abr</span>
+          <span class="bar-track"><span class="bar-fill warn" style="width:33%"></span></span>
+          <span class="val">358</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="lbl">29 abr</span>
+          <span class="bar-track"><span class="bar-fill crit" style="width:100%"></span></span>
+          <span class="val">1,096</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="lbl">30 abr</span>
+          <span class="bar-track"><span class="bar-fill crit" style="width:74%"></span></span>
+          <span class="val">814</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="lbl">1 may</span>
+          <span class="bar-track"><span class="bar-fill warn" style="width:33%"></span></span>
+          <span class="val">359</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="std">
+        <thead>
+          <tr>
+            <th>Almacén</th>
+            <th>Día</th>
+            <th class="num">Packs totales</th>
+            <th class="num">Generó packer</th>
+            <th class="num">Generó coord</th>
+            <th class="num">% transferido</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Plata</strong></td><td>28 abr</td>
+            <td class="num">5,627</td><td class="num">5,231</td>
+            <td class="num" style="color:var(--warn-soft)">358</td>
+            <td class="num" style="color:var(--warn-soft)"><strong>6.36%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Plata</strong></td><td>29 abr</td>
+            <td class="num">12,541</td><td class="num">11,406</td>
+            <td class="num" style="color:var(--crit-soft)">1,096</td>
+            <td class="num" style="color:var(--crit-soft)"><strong>8.74%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Plata</strong></td><td>30 abr</td>
+            <td class="num">9,600</td><td class="num">8,757</td>
+            <td class="num" style="color:var(--crit-soft)">814</td>
+            <td class="num" style="color:var(--crit-soft)"><strong>8.48%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Plata</strong></td><td>1 may</td>
+            <td class="num">3,950</td><td class="num">3,576</td>
+            <td class="num" style="color:var(--crit-soft)">359</td>
+            <td class="num" style="color:var(--crit-soft)"><strong>9.09%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Toreo</strong></td><td>28 abr</td>
+            <td class="num">1,224</td><td class="num">1,193</td>
+            <td class="num">10</td>
+            <td class="num"><strong>0.82%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Toreo</strong></td><td>29 abr</td>
+            <td class="num">4,166</td><td class="num">4,117</td>
+            <td class="num">35</td>
+            <td class="num"><strong>0.84%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Toreo</strong></td><td>30 abr</td>
+            <td class="num">4,071</td><td class="num">4,021</td>
+            <td class="num">26</td>
+            <td class="num"><strong>0.64%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Toreo</strong></td><td>1 may</td>
+            <td class="num">2,393</td><td class="num">2,347</td>
+            <td class="num">1</td>
+            <td class="num"><strong>0.04%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Tlalne</strong></td><td>28 abr</td>
+            <td class="num">1,031</td><td class="num">1,009</td>
+            <td class="num">9</td>
+            <td class="num"><strong>0.87%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Tlalne</strong></td><td>29 abr</td>
+            <td class="num">8,926</td><td class="num">8,875</td>
+            <td class="num">4</td>
+            <td class="num"><strong>0.04%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Tlalne</strong></td><td>30 abr</td>
+            <td class="num">6,870</td><td class="num">6,833</td>
+            <td class="num">17</td>
+            <td class="num"><strong>0.25%</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Tlalne</strong></td><td>1 may</td>
+            <td class="num">3,105</td><td class="num">3,075</td>
+            <td class="num">0</td>
+            <td class="num"><strong>0.00%</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ LOS 7 ERRORES DE PLATA CARD ============ -->
+  <section class="section">
+    <div class="section-num">§ 08 · Inventario por cliente</div>
+    <h2>Los 7 tipos de error de <em>Plata Card</em></h2>
+    <p class="section-sub">
+      Plata Card concentra 24,649 errores en los 3 WH MX. La tabla los desglosa por tipo, área responsable, owner sugerido y un ejemplo concreto del mensaje. Tres de los siete tipos son responsabilidad directa del cliente; los demás se reparten entre Plataforma, carrier y casos aislados. <strong style="color:var(--crit-soft)">Nota:</strong> los códigos #06 y #07 son <strong>el mismo bug del §04</strong> (texto demasiado largo) atrapado en paths distintos del backend — el fix de A-01 los resuelve también.
+    </p>
+
+    <div class="table-wrap">
+      <table class="std">
+        <thead>
+          <tr>
+            <th style="width:42px">#</th>
+            <th>Código de error</th>
+            <th>Categoría · subcategoría</th>
+            <th class="num">Casos 7d</th>
+            <th>Área</th>
+            <th>Owner sugerido</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">01</td>
+            <td>
+              <div class="err-class">CARRIER_API_ERROR</div>
+              <div class="err-msg">Circuit breaker is open for T1EnviosV2ApiClient (POST 500)</div>
+            </td>
+            <td>LAST_MILE · api</td>
+            <td class="num">14,625</td>
+            <td><span class="pill info">Last mile</span></td>
+            <td><span class="owner carrier">Plataforma + relación T1 Envíos</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">02</td>
+            <td>
+              <div class="err-class">UNEXPECTED_ERROR</div>
+              <div class="err-msg">el texto '04370 COYOACAN ATLANTIDA CIUDAD DE MEXICO' es demasiado largo</div>
+            </td>
+            <td>SYSTEM · —</td>
+            <td class="num">7,153</td>
+            <td><span class="pill warn">Mixto</span></td>
+            <td><span class="owner cs">CS (texto largo) + Plataforma (otros)</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">03</td>
+            <td>
+              <div class="err-class">CARRIER_NO_COVERAGE</div>
+              <div class="err-msg">99Minutos Error (412): There is no coverage for the selected origin</div>
+            </td>
+            <td>LAST_MILE · coverage</td>
+            <td class="num">1,478</td>
+            <td><span class="pill warn">Cliente</span></td>
+            <td><span class="owner cs">Customer Success — validar zonas</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">04</td>
+            <td>
+              <div class="err-class">IMEI_VALIDATION_FAILED</div>
+              <div class="err-msg">imeis: [['565153167442', 91174092]] already registered for store id 18877</div>
+              <div style="font-size:11px;color:var(--ink-mute);margin-top:6px;line-height:1.5;font-style:italic">
+                Plata Card vende equipos celulares con IMEI único. El sistema rechaza el alta porque ese IMEI ya está registrado para otro pedido — catálogo del cliente con datos duplicados o reuso de IMEIs ya despachados.
+              </div>
+            </td>
+            <td>VALIDATION · imei</td>
+            <td class="num">1,132</td>
+            <td><span class="pill warn">Cliente</span></td>
+            <td><span class="owner cs">Customer Success — Plata Card valida catálogo</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">05</td>
+            <td>
+              <div class="err-class">LABEL_GENERATION_IN_PROGRESS</div>
+              <div class="err-msg">order 14459364 is already generating a label, try again later</div>
+            </td>
+            <td>CONCURRENCY · —</td>
+            <td class="num">28</td>
+            <td><span class="pill info">Tech</span></td>
+            <td><span class="owner plat">Plataforma — locks de concurrencia</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">06</td>
+            <td>
+              <div class="err-class">ORDER_WRONG_STATUS <span style="font-family:'Geist',sans-serif;font-size:9.5px;font-weight:500;color:var(--crit-soft);background:var(--crit-bg);border:1px solid var(--crit-line);padding:1px 6px;border-radius:3px;margin-left:6px;letter-spacing:0.04em;text-transform:uppercase;">≈ §04</span></div>
+              <div class="err-msg">el texto 'Negocio de Alimentos y Bebidas BLACKSTORE' es demasiado largo</div>
+              <div style="font-size:11px;color:var(--ink-mute);margin-top:6px;line-height:1.5;font-style:italic">
+                Mismo bug que §04 — texto largo atrapado en otro path del backend.
+              </div>
+            </td>
+            <td>VALIDATION · order_state</td>
+            <td class="num">1</td>
+            <td><span class="pill info">Tech</span></td>
+            <td><span class="owner plat">Plataforma · caso aislado</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">07</td>
+            <td>
+              <div class="err-class">EDIT_RESTRICTION <span style="font-family:'Geist',sans-serif;font-size:9.5px;font-weight:500;color:var(--crit-soft);background:var(--crit-bg);border:1px solid var(--crit-line);padding:1px 6px;border-radius:3px;margin-left:6px;letter-spacing:0.04em;text-transform:uppercase;">≈ §04</span></div>
+              <div class="err-msg">el texto 'Cerca privada mediterraneo' es demasiado largo</div>
+              <div style="font-size:11px;color:var(--ink-mute);margin-top:6px;line-height:1.5;font-style:italic">
+                Mismo bug que §04 — texto largo atrapado en otro path del backend.
+              </div>
+            </td>
+            <td>VALIDATION · restriction</td>
+            <td class="num">1</td>
+            <td><span class="pill ok">Cubbo Ops</span></td>
+            <td><span class="owner ops">Cubbo Ops · caso aislado</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ TOP 10 ERRORES MX ============ -->
+  <section class="section">
+    <div class="section-num">§ 09 · Inventario MX agregado</div>
+    <h2>Top 10 <em>tipos de error</em> en los 3 WH</h2>
+    <p class="section-sub">
+      Tabla agregada por <code>error_class_name</code> y <code>error_status</code> sobre <code>order_fulfillment_errors</code>, filtrada a errores de los 3 almacenes MX (excluye errores de operaciones BR/CO/CL). El top 10 acumula la mayor parte del volumen del periodo.
+    </p>
+
+    <div class="table-wrap">
+      <table class="std">
+        <thead>
+          <tr>
+            <th style="width:42px">#</th>
+            <th>Clase de error</th>
+            <th>Estado</th>
+            <th class="num">Ocurrencias</th>
+            <th>Categoría</th>
+            <th>Propietario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">01</td>
+            <td>
+              <div class="err-class">CircuitOpenError</div>
+              <div class="err-msg">Circuit breaker is open for T1EnviosV2ApiClient — last error: GET 500 https://apiv2.t1envios.com/tracking/...</div>
+            </td>
+            <td><span class="pill warn">retry_failed</span></td>
+            <td class="num">12,701</td>
+            <td><span class="pill info">Proveedor caído</span></td>
+            <td><span class="owner carrier">Carrier · T1 Envíos</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">02</td>
+            <td>
+              <div class="err-class">ExpectedError</div>
+              <div class="err-msg">warehouse id 1 does not support shipping_method id 1090 for order id 14287844</div>
+            </td>
+            <td><span class="pill ok">solved</span></td>
+            <td class="num">5,675</td>
+            <td><span class="pill crit">Configuración</span></td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">03</td>
+            <td>
+              <div class="err-class">GenerateShippingLabelsException</div>
+              <div class="err-msg">zip_code must have a length of 5, length 6 received.</div>
+            </td>
+            <td><span class="pill warn">retry_failed</span></td>
+            <td class="num">3,920</td>
+            <td><span class="pill warn">Validación</span></td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">04</td>
+            <td>
+              <div class="err-class">ExpectedError</div>
+              <div class="err-msg">warehouse id 1 does not support shipping_method id 1090 for order id 14287844</div>
+            </td>
+            <td><span class="pill warn">retry_failed</span></td>
+            <td class="num">3,656</td>
+            <td><span class="pill crit">Configuración</span></td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">05</td>
+            <td>
+              <div class="err-class">CARRIER_NO_COVERAGE</div>
+              <div class="err-msg">99Minutos Error (412): There is no coverage for the selected origin</div>
+            </td>
+            <td><span class="pill warn">retry_failed</span></td>
+            <td class="num">1,478</td>
+            <td><span class="pill warn">Cobertura</span></td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">06</td>
+            <td>
+              <div class="err-class">IMEI_VALIDATION_FAILED</div>
+              <div class="err-msg">imeis already registered for store id 18877</div>
+            </td>
+            <td><span class="pill warn">retry_failed</span></td>
+            <td class="num">1,181</td>
+            <td><span class="pill warn">Catálogo cliente</span></td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">07</td>
+            <td>
+              <div class="err-class">GenerateShippingLabelsException</div>
+              <div class="err-msg">weight must be between 0.1 and 240, 0.075 received.</div>
+            </td>
+            <td><span class="pill ok">solved</span></td>
+            <td class="num">1,142</td>
+            <td><span class="pill warn">Validación</span></td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">08</td>
+            <td>
+              <div class="err-class">CircuitOpenError</div>
+              <div class="err-msg">Circuit breaker recovered after retry window</div>
+            </td>
+            <td><span class="pill ok">solved</span></td>
+            <td class="num">1,130</td>
+            <td><span class="pill info">Proveedor caído</span></td>
+            <td><span class="owner carrier">Carrier · T1 Envíos</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">09</td>
+            <td>
+              <div class="err-class">TypeError</div>
+              <div class="err-msg">no implicit conversion of nil into String</div>
+            </td>
+            <td><span class="pill warn">retry_failed</span></td>
+            <td class="num">480</td>
+            <td><span class="pill crit">Bug código</span></td>
+            <td><span class="owner plat">Plataforma</span></td>
+          </tr>
+          <tr>
+            <td class="num" style="color:var(--ink-mute)">10</td>
+            <td>
+              <div class="err-class">SHIPPING_INVOICE_ERROR</div>
+              <div class="err-msg">Errores de procesamiento de factura (rate limit / timeouts)</div>
+            </td>
+            <td><span class="pill warn">retry_failed</span></td>
+            <td class="num">360</td>
+            <td><span class="pill info">Facturación</span></td>
+            <td><span class="owner plat">Plataforma</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="appendix">
+      <summary>Ver tipos de error restantes (32 tipos adicionales)</summary>
+      <div class="appendix-body">
+        Total de 41 tipos de error distintos en el periodo (excluyendo BR/CO/CL). Los tipos restantes acumulan ~3% del volumen total y se distribuyen entre:
+        <code>ArgumentError</code>, <code>StandardError</code>, <code>JtExpressApiClientResponseError</code>, <code>NoMethodError</code>, <code>OpenSSL::SSL::SSLError</code>, <code>Net::OpenTimeout</code>, <code>Errno::ECONNRESET</code>, <code>ApiClientError</code>, <code>LABEL_GENERATION_IN_PROGRESS</code>, <code>ActiveRecord::PreparedStatementCacheExpired</code>, <code>ActiveRecord::StatementInvalid</code>, <code>EasyPostError</code>, <code>EstafetaError</code>, <code>DhlError</code>, entre otros.
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ PLAN DE ACCIÓN ============ -->
+  <section class="section">
+    <div class="section-num">§ 10 · Plan de acción</div>
+    <h2>Próximos pasos por <em>propietario</em></h2>
+    <p class="section-sub">
+      Acciones priorizadas P1 → P4 según impacto agregado y tiempo de resolución estimado. Asignación basada en la naturaleza técnica de cada error.
+    </p>
+
+    <div class="actions">
+      <table class="action-table">
+        <thead>
+          <tr>
+            <th style="width:54px">ID</th>
+            <th style="width:78px">Prio</th>
+            <th>Acción recomendada</th>
+            <th style="width:170px">Propietario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="action-id">A-01</div></td>
+            <td><span class="priority p1">P1</span></td>
+            <td>
+              <strong>Truncar defensivamente en <code>process_action</code></strong> (<code>shipping_label_service.rb:64</code>) cuando el campo de dirección excede el límite de T1 Envíos. Evita 6,892 ocurrencias / 6,198 órdenes afectadas semanales sin esperar al fix del cliente. Tiempo estimado: 1-2 días.
+            </td>
+            <td><span class="owner plat">Plataforma</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-02</div></td>
+            <td><span class="priority p1">P1</span></td>
+            <td>
+              <strong>Pedir a Plata Card validación de longitud en checkout</strong> para campos de referencia y dirección extendida. Tarea de Customer Success con plazo de 1 semana. Reduce el origen del bug en lugar de parchearlo en backend.
+            </td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-03</div></td>
+            <td><span class="priority p1">P1</span></td>
+            <td>
+              <strong>Dar de alta shipping_method 1090 para warehouse 1</strong> en <code>warehouse_shipping_methods</code>, o validar con Plata Card que está enviando el método correcto. Eliminaría ~31% de los errores MX. Cero código.
+            </td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-04</div></td>
+            <td><span class="priority p1">P1</span></td>
+            <td>
+              <strong>Investigar causa raíz de la transferencia en Plata.</strong> El ~8% no es accidente — es un patrón sistemático cruzado con el bug de §04. Validar si reduce automáticamente al aplicar A-01.
+            </td>
+            <td><span class="owner ops">Operaciones · Plata</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-05</div></td>
+            <td><span class="priority p2">P2</span></td>
+            <td>
+              <strong>Investigar TypeError</strong> con mensaje genérico <code>no implicit conversion of nil into String</code> — 480 ocurrencias sin trazabilidad clara. Sospecha de campo nulo en flujo de generación de tracking. Requiere stack trace en logs Rails.
+            </td>
+            <td><span class="owner plat">Plataforma</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-06</div></td>
+            <td><span class="priority p2">P2</span></td>
+            <td>
+              <strong>Validación pre-creación de label</strong> para zip_code (5 dígitos MX) y peso (rango 0.1–240 kg). 5,062 errores por validaciones que el frontend del cliente debería atrapar antes de llegar al backend.
+            </td>
+            <td><span class="owner plat">Plataforma</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-07</div></td>
+            <td><span class="priority p2">P2</span></td>
+            <td>
+              <strong>Escalar con T1 Envíos</strong> el patrón de circuit breaker (13,831 ocurrencias). Contactar account manager con evidencia de timestamps y endpoints. Validar entretanto que retry window y backoff están configurados a valores razonables.
+            </td>
+            <td><span class="owner carrier">Carrier · Carrier Ops</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-08</div></td>
+            <td><span class="priority p3">P3</span></td>
+            <td>
+              <strong>Validación de IMEIs duplicados en Plata Card.</strong> 1,132 IMEIs ya registrados en sistema indican catálogo del cliente con datos inconsistentes — IMEIs reusados de pedidos despachados o cargados en duplicado.
+            </td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-09</div></td>
+            <td><span class="priority p3">P3</span></td>
+            <td>
+              <strong>Validar zonas de cobertura 99Minutos con Plata Card.</strong> 1,478 errores de "no coverage for selected origin" indican direcciones del cliente fuera del polígono del carrier.
+            </td>
+            <td><span class="owner cs">Customer Success</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-10</div></td>
+            <td><span class="priority p3">P3</span></td>
+            <td>
+              <strong>Investigar el caso de "llamar antes de entregar." (25 chars exactos, 398 ocurrencias).</strong> El texto cumple con el límite teórico de 25 caracteres pero falla igual. Sugiere que el corte real del carrier es ≤24 chars o que se rechaza por carácter especial (punto final, espacios, acento). Documentar el límite real para mejorar A-01.
+            </td>
+            <td><span class="owner plat">Plataforma</span></td>
+          </tr>
+          <tr>
+            <td><div class="action-id">A-11</div></td>
+            <td><span class="priority p4">P4</span></td>
+            <td>
+              <strong>Reporte semanal automatizado</strong> de este mismo análisis. Programar Metabase pulse con KPIs y top 10 cada lunes 8am. Notificación a #plataforma y a coordinadores de almacén MX.
+            </td>
+            <td><span class="owner ops">Operaciones · Iván</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ APPENDIX ============ -->
+  <section class="section">
+    <div class="section-num">§ 11 · Apéndice técnico</div>
+    <h2>Cómo se construyó <em>este reporte</em></h2>
+    <p class="section-sub">
+      Investigación basada en consultas SQL contra la base productiva (Cubbo API · DB 2). Se ejecutaron 73 queries iterativas para validar schemas, descartar hipótesis y confirmar hallazgos.
+    </p>
+
+    <details class="appendix">
+      <summary>Tablas y campos utilizados</summary>
+      <div class="appendix-body">
+        <strong>Fuentes principales</strong><br>
+        <code>order_fulfillment_errors</code> — fuente principal. Columnas: <code>error_class_name</code>, <code>error_message</code>, <code>error_status</code>, <code>error_trace</code>, <code>created_at</code>.<br>
+        <code>orders</code> — volúmenes de órdenes con <code>status = 'shipped'</code>, <code>warehouse_id</code>, <code>dispatched_at</code>.<br>
+        <code>shipping_labels</code> — labels primarios (filtro <code>shipping_number !~ '_[0-9]+$'</code>).<br>
+        <code>packing_camera_events</code> — evento físico de packing por <code>user_id</code>; usada para distinguir packer físico vs emisor del label.<br>
+        <code>shipping_dispatches</code> + <code>shipping_dispatch_items</code> — auditoría del scan de salida.<br>
+        <code>stores</code> — para identificar a Plata Card (store_id 18877) como cliente concentrador.<br><br>
+        <strong>Identificadores clave</strong><br>
+        Toreo = WH-1 · Plata = WH-100 · Tlalne = WH-133 · Plata Card store_id = 18877.
+      </div>
+    </details>
+
+    <details class="appendix">
+      <summary>Notas metodológicas</summary>
+      <div class="appendix-body">
+        Periodo de análisis: <code>created_at &gt;= NOW() - INTERVAL '7 days' - INTERVAL '6 hours'</code> para alinear con timezone CDMX (UTC-6).<br><br>
+        <strong>Definición de "ocurrencias" / "errores":</strong> número de filas en <code>order_fulfillment_errors</code>, no número de órdenes únicas. Una misma orden puede generar múltiples filas si reintenta varias veces o falla en distintos pasos del flujo. Para conteo de órdenes únicas afectadas se requiere <code>COUNT(DISTINCT order_id)</code> sobre el mismo universo.<br><br>
+        Todos los volúmenes de error reflejan el universo crudo de <code>order_fulfillment_errors</code> filtrado a operaciones MX. La distribución por WH del § 03 es estimada por proporción de órdenes shipped × tasa de error promedio del periodo, ya que <code>order_fulfillment_errors</code> no almacena directamente el warehouse_id.<br><br>
+        <strong>Productividad transferida (§ 07):</strong> calculada cruzando <code>packing_camera_events.user_id</code> (quién hizo el evento físico) con <code>shipping_labels.created_by_id</code> (quién emitió el label). Si ambos coinciden = el packer generó su propia guía. Si difieren = transferencia.<br><br>
+        <strong>Top textos exactos (§ 05):</strong> agrupados por la cadena literal en <code>error_message</code> para casos cuyo mensaje matches el patrón <code>el texto '%' es demasiado largo</code>, filtrando por store_id = 18877.<br><br>
+        <strong>Identificadores warehouse_id en mensajes literales:</strong> los <code>error_message</code> se reproducen tal como vienen de Rails logs. <code>warehouse_id 1</code> = Toreo · <code>warehouse_id 100</code> = Plata · <code>warehouse_id 133</code> = Tlalnepantla.
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-block">
+      <strong>Cubbo · Operaciones MX</strong>
+      Reporte semanal de errores y productividad<br>
+      Generado: 1 may 2026 · 22:45 CDMX
+      <div class="footer-tags">
+        <span>v3.5</span>
+        <span>periodo 7d</span>
+        <span>db Cubbo API</span>
+        <span>3 WH MX</span>
+      </div>
+    </div>
+    <div class="footer-block" style="text-align:right">
+      <strong>Iván Hernández</strong>
+      ivan@cubbo.com<br>
+      Operations · Mexico
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
