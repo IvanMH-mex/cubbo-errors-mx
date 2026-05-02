@@ -941,7 +941,7 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="masthead-side">
       <div class="meta-row">
         <strong>Periodo</strong>
-        24 abr — 1 may 2026<br>7 días
+        25 abr — 2 may 2026<br>7 días
       </div>
       <div class="meta-row">
         <strong>Almacenes</strong>
@@ -953,7 +953,7 @@ details.appendix[open] > summary::before { content: '−'; }
       </div>
       <div class="meta-row">
         <strong>Edición</strong>
-        Iván Hernández · v3.5
+        Iván Hernández · v3.18
       </div>
     </div>
   </header>
@@ -971,9 +971,9 @@ details.appendix[open] > summary::before { content: '−'; }
         El <strong>hallazgo principal</strong> es un bug de backend en <code>shipping_label_service.rb:64</code> que rechaza textos de dirección largos. Un solo cliente (Plata Card) genera el <strong>99.5%</strong> de esos casos por checkout sin validar. En paralelo, otro defecto de configuración en el mismo cliente concentra el <strong>30% del volumen</strong> de errores. Y operativamente, <strong>~8% de los packs en Plata</strong> los genera el coordinador en lugar del packer.
       </p>
       <ul class="exec-bullets">
-        <li><b>6,892 ocurrencias</b> del bug "texto largo" en 7 días — afectando <b>6,198 órdenes únicas</b>. <code>process_action</code> en <code>shipping_label_service.rb:64</code> tira <code>ExpectedError</code> cuando un campo de dirección excede ~25 caracteres. Fix de Plataforma: 1-2 días.</li>
-        <li><b>9,331 ocurrencias</b> de configuración: <code>warehouse 1 does not support shipping_method 1090</code> — Customer Success debe dar de alta el método o validar con cliente.</li>
-        <li><b>13,831 errores</b> de circuit breaker contra <code>T1EnviosV2ApiClient</code> — proveedor caído intermitentemente, fuera de Cubbo.</li>
+        <li><b>7,102 ocurrencias</b> del bug "texto largo" en 7 días — afectando <b>6,388 órdenes únicas</b>. <code>process_action</code> en <code>shipping_label_service.rb:64</code> tira <code>ExpectedError</code> cuando un campo de dirección excede ~25 caracteres. Fix de Plataforma: 1-2 días.</li>
+        <li><b>0 ocurrencias</b> de configuración: <code>warehouse 1 does not support shipping_method 1090</code> — Customer Success debe dar de alta el método o validar con cliente.</li>
+        <li><b>10,268 errores</b> de circuit breaker contra <code>T1EnviosV2ApiClient</code> — proveedor caído intermitentemente, fuera de Cubbo.</li>
         <li><b>~8% de los packs en Plata</b> los genera el coordinador en lugar del packer — 814 transferencias en un solo día (30 abr); en Toreo y Tlalne el indicador es &lt;1%.</li>
         <li>Cero telemetría persistente del Network Error en handheld — confirmado por barrido de 41 tablas.</li>
       </ul>
@@ -991,17 +991,17 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="kpis">
       <div class="kpi">
         <div class="kpi-label">Total errores 7d <span class="kpi-tag crit">Crítico</span></div>
-        <div class="kpi-value">30,118</div>
+        <div class="kpi-value">27,455</div>
         <div class="kpi-detail">~4,302 errores/día promedio · 3 WH MX</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Concentración Plata <span class="kpi-tag warn">Foco</span></div>
         <div class="kpi-value">82%</div>
-        <div class="kpi-detail">24,649 errores · 1 cliente concentra el grueso</div>
+        <div class="kpi-detail">22,513 errores · 1 cliente concentra el grueso</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">% atribuible a proveedor <span class="kpi-tag info">Externo</span></div>
-        <div class="kpi-value">46%</div>
+        <div class="kpi-value">37.0%</div>
         <div class="kpi-detail">T1 Envíos circuit breaker · fuera de Cubbo</div>
       </div>
       <div class="kpi">
@@ -1017,7 +1017,7 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="section-num">§ 03 · Distribución por almacén</div>
     <h2>Qué pasa en <em>cada nave</em></h2>
     <p class="section-sub">
-      Los tres almacenes MX procesaron 172,027 órdenes en el periodo. La proporción de errores por volumen ayuda a entender si un WH tiene un problema sistémico o solo refleja su mayor carga.
+      Los tres almacenes MX procesaron 138,854 órdenes en el periodo. La proporción de errores por volumen ayuda a entender si un WH tiene un problema sistémico o solo refleja su mayor carga.
     </p>
 
     <div class="wh-grid">
@@ -1027,7 +1027,7 @@ details.appendix[open] > summary::before { content: '−'; }
           <div class="wh-id">WH-1</div>
         </div>
         <div class="wh-stat">~9%</div>
-        <div class="wh-stat-label">Cuota de errores · 30,392 órdenes</div>
+        <div class="wh-stat-label">Cuota de errores · 27,496 órdenes</div>
         <div class="wh-extra">
           Flujo principal DHL + ESTAFETA + JT. Errores moderados, ninguno concentrado en un solo cliente. Transferencia packer→coord <strong>0.6%</strong>.
         </div>
@@ -1038,7 +1038,7 @@ details.appendix[open] > summary::before { content: '−'; }
           <div class="wh-id">WH-100</div>
         </div>
         <div class="wh-stat">82%</div>
-        <div class="wh-stat-label">Cuota de errores · 24,649 totales</div>
+        <div class="wh-stat-label">Cuota de errores · 22,513 totales</div>
         <div class="wh-extra">
           <strong>Plata Card (store 18877)</strong> concentra los 7 tipos de error documentados. Aquí también se materializa la transferencia de productividad: <strong>~8% de los packs</strong> los genera el coordinador.
         </div>
@@ -1049,7 +1049,7 @@ details.appendix[open] > summary::before { content: '−'; }
           <div class="wh-id">WH-133</div>
         </div>
         <div class="wh-stat">~9%</div>
-        <div class="wh-stat-label">Cuota de errores · 50,495 órdenes</div>
+        <div class="wh-stat-label">Cuota de errores · 40,578 órdenes</div>
         <div class="wh-extra">
           Carrier principal JT Express. Errores menores, mayormente resueltos por reintento. Transferencia <strong>0.3%</strong> — flujo distinto al de Plata.
         </div>
@@ -1079,11 +1079,11 @@ details.appendix[open] > summary::before { content: '−'; }
       </p>
       <div class="highlight-stats">
         <div>
-          <div class="highlight-stat-num">6,892</div>
+          <div class="highlight-stat-num">7,102</div>
           <div class="highlight-stat-lbl">Ocurrencias 7d</div>
         </div>
         <div>
-          <div class="highlight-stat-num">6,198</div>
+          <div class="highlight-stat-num">6,388</div>
           <div class="highlight-stat-lbl">Órdenes únicas afectadas</div>
         </div>
         <div>
@@ -1097,7 +1097,7 @@ details.appendix[open] > summary::before { content: '−'; }
   <span class="path">/app/app/services/t1_envios_v2_service.rb:310</span>:in ...
 
 <span class="comment">→ Función Ruby identificada: <strong>process_action</strong></span>
-<span class="comment">→ Distribución: 4,639 solved · 2,250 retry_failed · 3 open</span>
+<span class="comment">→ Distribución: 4,792 solved · 2,309 retry_failed · 1 open</span>
 <span class="comment">→ Tienda responsable: <strong>Plata Card</strong> · 99.5% de los casos</span>
 <span class="comment">→ Carrier: <strong>T1 Envios v2</strong> · límite ≤25 chars en algún campo</span>
       </div>
@@ -1200,18 +1200,18 @@ details.appendix[open] > summary::before { content: '−'; }
       <div class="highlight-tag" style="color:var(--warn-soft)">Hallazgo secundario · Plata Card · store 18877</div>
       <h3>Toreo no soporta el <em>shipping_method 1090</em></h3>
       <p>
-        El error <code>ExpectedError</code> con el mensaje <code>warehouse id 1 does not support shipping_method id 1090 for order id ...</code> (warehouse 1 = Toreo en la base) se repite <strong>9,331 veces</strong> en 7 días. Aparece tanto con <code>error_status = solved</code> (5,675) como con <code>retry_failed</code> (3,656) — aún cuando el reintento falla, eventualmente la orden se procesa por otro camino.
+        El error <code>ExpectedError</code> con el mensaje <code>warehouse id 1 does not support shipping_method id 1090 for order id ...</code> (warehouse 1 = Toreo en la base) se repite <strong>0 veces</strong> en 7 días. Aparece tanto con <code>error_status = solved</code> (0) como con <code>retry_failed</code> (0) — aún cuando el reintento falla, eventualmente la orden se procesa por otro camino.
       </p>
       <p>
         El cliente está enviando órdenes con un shipping_method que no está dado de alta para Toreo. No es un fallo de código: es un dato faltante en <code>warehouse_shipping_methods</code> o un envío incorrecto desde el checkout.
       </p>
       <div class="highlight-stats">
         <div>
-          <div class="highlight-stat-num" style="color:var(--warn-soft)">9,331</div>
+          <div class="highlight-stat-num" style="color:var(--warn-soft)">0</div>
           <div class="highlight-stat-lbl">Ocurrencias 7d</div>
         </div>
         <div>
-          <div class="highlight-stat-num" style="color:var(--warn-soft)">31%</div>
+          <div class="highlight-stat-num" style="color:var(--warn-soft)">0%</div>
           <div class="highlight-stat-lbl">Del total de errores MX</div>
         </div>
         <div>
@@ -1375,7 +1375,7 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="section-num">§ 08 · Inventario por cliente</div>
     <h2>Los 7 tipos de error de <em>Plata Card</em></h2>
     <p class="section-sub">
-      Plata Card concentra 24,649 errores en los 3 WH MX. La tabla los desglosa por tipo, área responsable, owner sugerido y un ejemplo concreto del mensaje. Tres de los siete tipos son responsabilidad directa del cliente; los demás se reparten entre Plataforma, carrier y casos aislados. <strong style="color:var(--crit-soft)">Nota:</strong> los códigos #06 y #07 son <strong>el mismo bug del §04</strong> (texto demasiado largo) atrapado en paths distintos del backend — el fix de A-01 los resuelve también.
+      Plata Card concentra 22,513 errores en los 3 WH MX. La tabla los desglosa por tipo, área responsable, owner sugerido y un ejemplo concreto del mensaje. Tres de los siete tipos son responsabilidad directa del cliente; los demás se reparten entre Plataforma, carrier y casos aislados. <strong style="color:var(--crit-soft)">Nota:</strong> los códigos #06 y #07 son <strong>el mismo bug del §04</strong> (texto demasiado largo) atrapado en paths distintos del backend — el fix de A-01 los resuelve también.
     </p>
 
     <div class="table-wrap">
@@ -1649,7 +1649,7 @@ details.appendix[open] > summary::before { content: '−'; }
             <td><div class="action-id">A-01</div></td>
             <td><span class="priority p1">P1</span></td>
             <td>
-              <strong>Truncar defensivamente en <code>process_action</code></strong> (<code>shipping_label_service.rb:64</code>) cuando el campo de dirección excede el límite de T1 Envíos. Evita 6,892 ocurrencias / 6,198 órdenes afectadas semanales sin esperar al fix del cliente. Tiempo estimado: 1-2 días.
+              <strong>Truncar defensivamente en <code>process_action</code></strong> (<code>shipping_label_service.rb:64</code>) cuando el campo de dirección excede el límite de T1 Envíos. Evita 7,102 ocurrencias / 6,388 órdenes afectadas semanales sin esperar al fix del cliente. Tiempo estimado: 1-2 días.
             </td>
             <td><span class="owner plat">Plataforma</span></td>
           </tr>
@@ -1779,9 +1779,9 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="footer-block">
       <strong>Cubbo · Operaciones MX</strong>
       Reporte semanal de errores y productividad<br>
-      Generado: 1 may 2026 · 22:45 CDMX
+      Generado: 2 may 2026 · 16:01 CDMX
       <div class="footer-tags">
-        <span>v3.5</span>
+        <span>v3.18</span>
         <span>periodo 7d</span>
         <span>db Cubbo API</span>
         <span>3 WH MX</span>
