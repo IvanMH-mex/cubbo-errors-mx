@@ -941,7 +941,7 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="masthead-side">
       <div class="meta-row">
         <strong>Periodo</strong>
-        19 oct — 26 oct 2026<br>7 días
+        26 oct — 2 nov 2026<br>7 días
       </div>
       <div class="meta-row">
         <strong>Almacenes</strong>
@@ -953,7 +953,7 @@ details.appendix[open] > summary::before { content: '−'; }
       </div>
       <div class="meta-row">
         <strong>Edición</strong>
-        Iván Hernández · v3.44
+        Iván Hernández · v3.45
       </div>
     </div>
   </header>
@@ -991,13 +991,13 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="kpis">
       <div class="kpi">
         <div class="kpi-label">Total errores 7d <span class="kpi-tag crit">Crítico</span></div>
-        <div class="kpi-value">9,183</div>
+        <div class="kpi-value">7,394</div>
         <div class="kpi-detail">~4,302 errores/día promedio · 3 WH MX</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Concentración Plata <span class="kpi-tag warn">Foco</span></div>
         <div class="kpi-value">82%</div>
-        <div class="kpi-detail">7,530 errores · 1 cliente concentra el grueso</div>
+        <div class="kpi-detail">6,063 errores · 1 cliente concentra el grueso</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">% atribuible a proveedor <span class="kpi-tag info">Externo</span></div>
@@ -1017,7 +1017,7 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="section-num">§ 03 · Distribución por almacén</div>
     <h2>Qué pasa en <em>cada nave</em></h2>
     <p class="section-sub">
-      Los tres almacenes MX procesaron 110,080 órdenes en el periodo. La proporción de errores por volumen ayuda a entender si un WH tiene un problema sistémico o solo refleja su mayor carga.
+      Los tres almacenes MX procesaron 105,642 órdenes en el periodo. La proporción de errores por volumen ayuda a entender si un WH tiene un problema sistémico o solo refleja su mayor carga.
     </p>
 
     <div class="wh-grid">
@@ -1027,7 +1027,7 @@ details.appendix[open] > summary::before { content: '−'; }
           <div class="wh-id">WH-1</div>
         </div>
         <div class="wh-stat">~9%</div>
-        <div class="wh-stat-label">Cuota de errores · 27,614 órdenes</div>
+        <div class="wh-stat-label">Cuota de errores · 25,866 órdenes</div>
         <div class="wh-extra">
           Flujo principal DHL + ESTAFETA + JT. Errores moderados, ninguno concentrado en un solo cliente. Transferencia packer→coord <strong>0.6%</strong>.
         </div>
@@ -1038,7 +1038,7 @@ details.appendix[open] > summary::before { content: '−'; }
           <div class="wh-id">WH-100</div>
         </div>
         <div class="wh-stat">82%</div>
-        <div class="wh-stat-label">Cuota de errores · 7,530 totales</div>
+        <div class="wh-stat-label">Cuota de errores · 6,063 totales</div>
         <div class="wh-extra">
           <strong>Plata Card (store 18877)</strong> concentra los 7 tipos de error documentados. Aquí también se materializa la transferencia de productividad: <strong>~8% de los packs</strong> los genera el coordinador.
         </div>
@@ -1049,7 +1049,7 @@ details.appendix[open] > summary::before { content: '−'; }
           <div class="wh-id">WH-133</div>
         </div>
         <div class="wh-stat">~9%</div>
-        <div class="wh-stat-label">Cuota de errores · 37,335 órdenes</div>
+        <div class="wh-stat-label">Cuota de errores · 34,651 órdenes</div>
         <div class="wh-extra">
           Carrier principal JT Express. Errores menores, mayormente resueltos por reintento. Transferencia <strong>0.3%</strong> — flujo distinto al de Plata.
         </div>
@@ -1375,7 +1375,7 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="section-num">§ 08 · Inventario por cliente</div>
     <h2>Los 7 tipos de error de <em>Plata Card</em></h2>
     <p class="section-sub">
-      Plata Card concentra 7,530 errores en los 3 WH MX. La tabla los desglosa por tipo, área responsable, owner sugerido y un ejemplo concreto del mensaje. Tres de los siete tipos son responsabilidad directa del cliente; los demás se reparten entre Plataforma, carrier y casos aislados. <strong style="color:var(--crit-soft)">Nota:</strong> los códigos #06 y #07 son <strong>el mismo bug del §04</strong> (texto demasiado largo) atrapado en paths distintos del backend — el fix de A-01 los resuelve también.
+      Plata Card concentra 6,063 errores en los 3 WH MX. La tabla los desglosa por tipo, área responsable, owner sugerido y un ejemplo concreto del mensaje. Tres de los siete tipos son responsabilidad directa del cliente; los demás se reparten entre Plataforma, carrier y casos aislados. <strong style="color:var(--crit-soft)">Nota:</strong> los códigos #06 y #07 son <strong>el mismo bug del §04</strong> (texto demasiado largo) atrapado en paths distintos del backend — el fix de A-01 los resuelve también.
     </p>
 
     <div class="table-wrap">
@@ -1779,9 +1779,9 @@ details.appendix[open] > summary::before { content: '−'; }
     <div class="footer-block">
       <strong>Cubbo · Operaciones MX</strong>
       Reporte semanal de errores y productividad<br>
-      Generado: 26 oct 2026 · 13:40 CDMX
+      Generado: 2 nov 2026 · 16:32 CDMX
       <div class="footer-tags">
-        <span>v3.44</span>
+        <span>v3.45</span>
         <span>periodo 7d</span>
         <span>db Cubbo API</span>
         <span>3 WH MX</span>
